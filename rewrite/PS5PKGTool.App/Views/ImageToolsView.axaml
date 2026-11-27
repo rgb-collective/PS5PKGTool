@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:PS5PKGTool.App.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PS5PKGTool.App.Views.ImageToolsView"
+             x:DataType="vm:ImageToolsViewModel">
+
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="12" Margin="0,0,0,16">
+            <TextBlock Text="Image Tools" FontSize="20" FontWeight="Bold" />
+
+            <DockPanel LastChildFill="True" Margin="0,8">
+                <TextBlock DockPanel.Dock="Left" Text="Source:" Width="80" VerticalAlignment="Center" />
+                <TextBox DockPanel.Dock="Right" Text="{Binding SourcePath}" Watermark="Select image or folder..." />
+            </DockPanel>
+
+            <DockPanel LastChildFill="True" Margin="0,8">
+                <TextBlock DockPanel.Dock="Left" Text="Output:" Width="80" VerticalAlignment="Center" />
+                <TextBox DockPanel.Dock="Right" Text="{Binding OutputPath}" Watermark="Output path..." />
+            </DockPanel>
+
+            <ComboBox DockPanel.Dock="Top" ItemsSource="{Binding AvailableActions}"
+                      SelectedItem="{Binding SelectedAction}" Margin="0,8" />
+
+            <Button Content="Execute" Command="{Binding ExecuteCommand}" IsEnabled="{Binding !IsBusy}" Margin="0,8" />
+            <ProgressBar IsVisible="{Binding IsBusy}" IsIndeterminate="True" Margin="0,8" />
+            <TextBlock Text="{Binding Status}" Foreground="Gray" />
+        </StackPanel>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,28 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:PS5PKGTool.App.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PS5PKGTool.App.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+
+    <DockPanel Margin="16">
+        <StackPanel DockPanel.Dock="Top" Spacing="16" Margin="0,0,0,16">
+            <TextBlock Text="Settings" FontSize="20" FontWeight="Bold" />
+
+            <DockPanel LastChildFill="True" Margin="0,8">
+                <TextBlock DockPanel.Dock="Left" Text="Theme:" Width="100" VerticalAlignment="Center" />
+                <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding AvailableThemes}"
+                          SelectedItem="{Binding Theme}" Width="150" />
+            </DockPanel>
+
+            <DockPanel LastChildFill="True" Margin="0,8">
+                <TextBlock DockPanel.Dock="Left" Text="Default Output:" Width="100" VerticalAlignment="Center" />
+                <TextBox DockPanel.Dock="Right" Text="{Binding DefaultOutputFolder}" Watermark="Default output folder..." />
+            </DockPanel>
+
+            <TextBlock Text="{Binding Status}" Foreground="Gray" />
+        </StackPanel>
+    </DockPanel>
+</UserControl>

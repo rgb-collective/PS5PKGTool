@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:PS5PKGTool.App.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+             x:Class="PS5PKGTool.App.Views.LibraryView"
+             x:DataType="vm:LibraryViewModel">
+
+    <DockPanel Margin="16">
+        <!-- Toolbar -->
+        <StackPanel DockPanel.Dock="Top" Spacing="12" Margin="0,0,0,16">
+            <DockPanel LastChildFill="True">
+                <TextBox DockPanel.Dock="Right" Watermark="Enter library folder path..."
+                         Text="{Binding LibraryPath}" Width="300" />
+                <Button DockPanel.Dock="Right" Content="Scan" Command="{Binding ScanCommand}" Margin="8,0,0,0" />
+                <TextBlock Text="Library Folder:" FontWeight="Bold" VerticalAlignment="Center" />
+            </DockPanel>
+            <TextBlock Text="{Binding Status}" Foreground="Gray" />
+        </StackPanel>
+
+        <!-- Game List -->
+        <ListBox ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame}">
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="vm:GameItem">
+                    <Border Padding="4" CornerRadius="4" Background="{DynamicResource AltLow}">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding Size, StringFormat='{}{0:N0} bytes'}" FontSize="11" Foreground="Gray" />
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding Platform}" Width="60" FontSize="11" />
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding SourceDescription}" Width="100" FontSize="11" />
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}" FontWeight="Bold" />
+                                <TextBlock Text="{Binding TitleId}" Foreground="Gray" FontSize="11" />
+                                <TextBlock Text="{Binding ContentId}" Foreground="Gray" FontSize="10" Opacity="0.7" />
+                            </StackPanel>
+                        </DockPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</UserControl>

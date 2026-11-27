@@ -1,0 +1,73 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:PS5PKGTool.App.ViewModels"
+        xmlns:views="using:PS5PKGTool.App.Views"
+        xmlns:converters="using:PS5PKGTool.App.Views.Converters"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
+        x:Class="PS5PKGTool.App.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="PS5 PKG Tool"
+        MinWidth="900"
+        MinHeight="600">
+
+    <Window.Resources>
+        <views:AppViewToBoolConverter x:Key="ViewToBool" />
+        <converters:StringNotEmptyToBoolConverter x:Key="StringNotEmptyToBool" />
+    </Window.Resources>
+
+    <Grid ColumnDefinitions="220,*" RowDefinitions="*,Auto,Auto">
+        <!-- Navigation Rail -->
+        <Border Grid.Row="0" Grid.Column="0" Classes="NavRail">
+            <StackPanel Spacing="8" Margin="16">
+                <TextBlock Text="PS5 PKG Tool" FontSize="20" FontWeight="Bold" Margin="0,0,0,24" />
+
+                <Button Content="Library" Command="{Binding NavigateCommand}" CommandParameter="{x:Static vm:AppView.Library}"
+                        Classes="NavButton" />
+                <Button Content="Image Tools" Command="{Binding NavigateCommand}" CommandParameter="{x:Static vm:AppView.ImageTools}"
+                        Classes="NavButton" />
+                <Button Content="Package Builder" Command="{Binding NavigateCommand}" CommandParameter="{x:Static vm:AppView.PackageBuilder}"
+                        Classes="NavButton" />
+                <Button Content="Settings" Command="{Binding NavigateCommand}" CommandParameter="{x:Static vm:AppView.Settings}"
+                        Classes="NavButton" />
+            </StackPanel>
+        </Border>
+
+        <!-- Content Area -->
+        <Border Grid.Row="0" Grid.Column="1" Classes="ContentArea">
+            <ContentControl Content="{Binding CurrentView}">
+                <ContentControl.DataTemplates>
+                    <DataTemplate DataType="vm:AppView" x:DataType="vm:AppView">
+                        <Panel>
+                            <views:LibraryView DataContext="{Binding $parent[Window].DataContext.Library}"
+                                               IsVisible="{Binding $parent[ContentControl].Content, Converter={StaticResource ViewToBool}, ConverterParameter=Library}" />
+                            <views:ImageToolsView DataContext="{Binding $parent[Window].DataContext.ImageTools}"
+                                                  IsVisible="{Binding $parent[ContentControl].Content, Converter={StaticResource ViewToBool}, ConverterParameter=ImageTools}" />
+                            <views:PackageBuilderView DataContext="{Binding $parent[Window].DataContext.PackageBuilder}"
+                                                      IsVisible="{Binding $parent[ContentControl].Content, Converter={StaticResource ViewToBool}, ConverterParameter=PackageBuilder}" />
+                            <views:SettingsView DataContext="{Binding $parent[Window].DataContext.Settings}"
+                                                IsVisible="{Binding $parent[ContentControl].Content, Converter={StaticResource ViewToBool}, ConverterParameter=Settings}" />
+                        </Panel>
+                    </DataTemplate>
+                </ContentControl.DataTemplates>
+            </ContentControl>
+        </Border>
+
+        <!-- Error Display (shown when an exception occurs) -->
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Classes="ErrorBar"
+                IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyToBool}}">
+            <DockPanel Margin="12,8">
+                <Button DockPanel.Dock="Right" Content="Copy Error" Command="{Binding CopyErrorCommand}"
+                        Padding="8,4" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="#ff6b6b" VerticalAlignment="Center"
+                           TextWrapping="Wrap" />
+            </DockPanel>
+        </Border>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Classes="StatusBar">
+            <TextBlock Text="{Binding Library.Status}" VerticalAlignment="Center" Margin="16,0" />
+        </Border>
+    </Grid>
+</Window>
