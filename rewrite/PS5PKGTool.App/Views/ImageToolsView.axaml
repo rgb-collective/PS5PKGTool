@@ -24,7 +24,20 @@
             <ComboBox DockPanel.Dock="Top" ItemsSource="{Binding AvailableActions}"
                       SelectedItem="{Binding SelectedAction}" Margin="0,8" />
 
-            <Button Content="Execute" Command="{Binding ExecuteCommand}" IsEnabled="{Binding !IsBusy}" Margin="0,8" />
+            <DockPanel LastChildFill="True" Margin="0,8">
+                <TextBlock DockPanel.Dock="Left" Text="Passcode:" Width="80" VerticalAlignment="Center" />
+                <TextBox DockPanel.Dock="Right" Text="{Binding Passcode}" Watermark="Debug passcode..." />
+            </DockPanel>
+
+            <CheckBox DockPanel.Dock="Top" Content="Overwrite existing output" IsChecked="{Binding Overwrite}" Margin="0,8" />
+
+            <DockPanel LastChildFill="False" Margin="0,8">
+                <Button DockPanel.Dock="Left" Content="Execute" Command="{Binding ExecuteCommand}"
+                        IsEnabled="{Binding !IsBusy}" Margin="0,0,8,0" />
+                <Button DockPanel.Dock="Left" Content="Cancel" Command="{Binding CancelCommand}"
+                        IsEnabled="{Binding IsBusy}" Margin="0,0,8,0" IsVisible="{Binding IsBusy}" />
+            </DockPanel>
+
             <ProgressBar IsVisible="{Binding IsBusy}" IsIndeterminate="True" Margin="0,8" />
             <TextBlock Text="{Binding Status}" Foreground="Gray" />
         </StackPanel>
